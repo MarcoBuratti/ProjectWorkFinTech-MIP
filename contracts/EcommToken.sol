@@ -65,11 +65,11 @@ contract EcommToken {
     }
     
     
-    function requestTokenPriceToBuy(uint256 _tokenToBuy) public pure returns (uint256) {
+    function requestTokenPriceToBuy(uint256 _tokenToBuy) public view returns (uint256) {
         uint256 ethAmount;
         //ethAmount = _tokenToBuy * 1000000000000000000;
         //ethAmount = ethAmount / 3200;
-        tokenPrice * _tokenToBuy;
+        ethAmount =  tokenPrice * _tokenToBuy;
         return ethAmount;
     }
     
