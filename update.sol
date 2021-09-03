@@ -9,18 +9,13 @@ contract EcommToken {
     string  private standard = "Ecommerce Token v1.0";
     uint256 private totalSupply = 10000000000000000000;
     uint256 private leftSupply = 10000000000000000000;
-    uint256 public tokenPrice = 312000000000000; // conversione da un dollaro a eth
+    uint256 private tokenPrice = 312000000000000; // conversione da un dollaro a eth
     address payable private contractOwner;
-    //address _AMZNChainLink
-    //PriceAMZN private AMAZON;
-    address private AmazonContract;
-    uint256 public stockPrice;
-    
-    address [10] public whoBuy = [0x0000000000000000000000000000000000000000];
-    uint256 [10] public whatPrice = [0];
-    uint256 public index = 0;
-    uint256 public price;
-    PriceAMZN public AMAZON;
+
+    //address [10] public whoBuy = [0x0000000000000000000000000000000000000000];
+    //uint256 [10] public whatPrice = [0];
+    uint256 private index = 0;
+    PriceAMZN private AMAZON;
     
     struct AccountData{
         uint256 priceToBuy;
@@ -32,13 +27,13 @@ contract EcommToken {
     event Approval( address indexed _owner, address indexed _spender, uint256 _value );
     event Bought( address indexed _buyer, uint256 indexed amount );
     
-    mapping(address => uint256) public balanceOf;
+    mapping(address => uint256) private balanceOf;
     mapping(address => mapping(address => uint256)) private allowance;
     mapping(address => AccountData) public customerData;
 
     // Crea il token e i valori che definiscono il contratto
     constructor () public {
-        index = 0;
+        index = 1;
         balanceOf[address(this)] = totalSupply;
         contractOwner = 0x0cbdC5cFfE55D6E2dB656123607F78c80Ba86C3D;
         AMAZON = new PriceAMZN();
@@ -62,12 +57,11 @@ contract EcommToken {
     function buy(uint256  _numberOfTokens) payable public {
         require( requestHasBeenMade(msg.sender), "Your request is pending, please wait try later!");
         require( msg.value == _numberOfTokens * tokenPrice );
-        //uint256 amountTobuy = msg.value;
-        require(msg.value > 0, "You need to send some Ether");
-        //require(amountTobuy <= dexBalance, "Not enough tokens in the reserve");
+        //Calculate how many tokens to transfer and send it to the customer
         _numberOfTokens = _numberOfTokens * 1000000000000000000;
         transfer(msg.sender, _numberOfTokens);
         //contractOwner.send(msg.value);
+        //Emit the Event
         emit Bought(msg.sender, msg.value);
         customerData[msg.sender].priceToBuy = getAMZNprice(msg.sender);
         customerData[msg.sender].request = true;
@@ -79,17 +73,12 @@ contract EcommToken {
         index += 1;
     }
     
-    function amazonAddress() public view returns (address){
-        return AMAZON.getContractAddress();
-    }
-    
     function requestHasBeenMade(address _requestID) private returns (bool) {
         uint256 indexID = customerData[_requestID].requestIndex;
         //PriceAMZN AMAZON = PriceAMZN(AmazonContract);
         return AMAZON.getBoolean(indexID);
     }
-    
-    function getAMZNprice(address _requestID) public view returns (uint256){
+    function getAMZNprice(address _requestID) private view returns (uint256){
         uint256 indexID = customerData[_requestID].requestIndex;
         //PriceAMZN AMAZON = PriceAMZN(AmazonContract);
         return AMAZON.getPriceAMZN(indexID);
@@ -124,13 +113,10 @@ contract EcommToken {
         return true;
     }
     
-    function setAMZNaddress(address _AmazonContract) public {
-        AmazonContract = _AmazonContract;
-    }
     function getTknPrice() public view returns (uint256) {
         return tokenPrice;
     }
-    function getMoneyBalance() public view returns (uint256) {
+    function getMoneyBalance() private view returns (uint256) {
         return address(this).balance;
     }
 }
@@ -164,7 +150,7 @@ contract PriceAMZN is ChainlinkClient {
         oracle = 0xc57B33452b4F7BB189bB5AfaE9cc4aBa1f7a4FD8;
         jobId = "d5270d1c311941d0b08bead21fea7747";
         fee = 0.1 * 10 ** 18; // (Varies by network and job)
-        requestIndex = 0;
+        requestIndex = 1;
     }
     
     /**
