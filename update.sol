@@ -1,7 +1,6 @@
 pragma solidity ^0.6.0;
 
 import "@chainlink/contracts/src/v0.6/ChainlinkClient.sol";
-//import "https://github.com/smartcontractkit/chainlink/blob/develop/contracts/src/v0.6/ChainlinkClient.sol";
 
 contract EcommToken {
     string  public constant name = "Ecommerce Token";
@@ -21,6 +20,7 @@ contract EcommToken {
     uint256 [10] public whatPrice = [0];
     uint256 public index = 0;
     uint256 public price;
+    PriceAMZN public AMAZON;
     
     struct AccountData{
         uint256 priceToBuy;
@@ -41,6 +41,7 @@ contract EcommToken {
         index = 0;
         balanceOf[address(this)] = totalSupply;
         contractOwner = 0x0cbdC5cFfE55D6E2dB656123607F78c80Ba86C3D;
+        AMAZON = new PriceAMZN();
     }
 
     // Funzione per trasferire i token a un indirizzo
@@ -73,21 +74,24 @@ contract EcommToken {
     }
     
     function requestToBuy() public {
-        PriceAMZN AMAZON = PriceAMZN(AmazonContract);
         AMAZON.requestPrice(index);
         customerData[msg.sender] = AccountData(0, false, index);
         index += 1;
     }
     
+    function amazonAddress() public view returns (address){
+        return AMAZON.getContractAddress();
+    }
+    
     function requestHasBeenMade(address _requestID) private returns (bool) {
         uint256 indexID = customerData[_requestID].requestIndex;
-        PriceAMZN AMAZON = PriceAMZN(AmazonContract);
+        //PriceAMZN AMAZON = PriceAMZN(AmazonContract);
         return AMAZON.getBoolean(indexID);
     }
     
     function getAMZNprice(address _requestID) public view returns (uint256){
         uint256 indexID = customerData[_requestID].requestIndex;
-        PriceAMZN AMAZON = PriceAMZN(AmazonContract);
+        //PriceAMZN AMAZON = PriceAMZN(AmazonContract);
         return AMAZON.getPriceAMZN(indexID);
     }
     
