@@ -24,11 +24,12 @@
 // const mnemonic = fs.readFileSync(".secret").toString().trim();
 
 var HDWalletProvider = require("@truffle/hdwallet-provider");
-const privateKey = "7805fd25bbf250ca41c058aac2a1c113a440d410b9a0dbed05bae7ad1820d243";
+require('dotenv').config()
+const privateKey = process.env.privateKeyMetaMask;
 //RINKEBY
-//const endpointUrl = "https://rinkeby.infura.io/v3/8d8fa10480e144e588e9b9a94d33bf2a";
+//const endpointUrl = "https://rinkeby.infura.io/v3/" + process.env.rinkebyApiKeyInfuria;
 //KOVAN
-const endpointUrl = "https://kovan.infura.io/v3/3073a26265274712ab29e8a55289552c";
+const endpointUrl = "https://kovan.infura.io/v3/" + process.env.kovanApiKeyInfuria;
 
 module.exports = {
   /**
@@ -76,7 +77,7 @@ module.exports = {
       gas: 5000000,
       gasPrice: 25000000000,
       network_id: 42,
-      from: "0x72f197163bA7c955f487f55CbF04FfEffcBD22f0"
+      from: process.env.MetaMaskAccountPublicKey
     }/*
     rinkeby: {
         provider: function() { 
@@ -107,7 +108,7 @@ module.exports = {
     'truffle-plugin-verify'
   ],
   api_keys: {
-    etherscan: 'SMCWFKP7A2G9KZAMFFDP71U7HUN89H8IX9'
+    etherscan: process.env.etherscanApiKey
   },
   // Set default mocha options here, use special reporters etc.
   mocha: {
