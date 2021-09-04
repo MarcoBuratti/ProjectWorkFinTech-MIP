@@ -33,21 +33,18 @@ contract EcommToken {
     mapping(address => mapping(address => uint256)) private allowance;
     mapping(address => AccountData) public customerData;
 
-    // Crea il token e i valori che definiscono il contratto
     constructor () public {
         index = 1;
         balanceOf[address(this)] = Supply;
         contractOwner = 0x0cbdC5cFfE55D6E2dB656123607F78c80Ba86C3D;
         AMAZON = new PriceAMZN();
     }
-    // Funzione per trasferire i token a un indirizzo
-    // è richiesto solo che il balance del mittente sia superiore a quanto vuole trasferire
     function transfer(address _to, uint256 _value) private returns (bool success){   
         require(leftSupply >= _value);
         //whoPaid[msg.sender] = msg.value;
         //contractOwner.send(msg.value);
         leftSupply -= _value;
-        balanceOf[address(this)] = _value;
+        balanceOf[address(this)] -= _value;
         balanceOf[_to] += _value;
         emit Transfer(address(this), _to, _value);
         return true;
@@ -89,7 +86,6 @@ contract EcommToken {
         emit Approval(msg.sender, _spender, _value);
         return true;
     }
-    // Funzioni che servono a "delegre" il trasferimento dei token
     function transferFrom(address _from, address _to, uint256 _value) private returns (bool success) {
         require(_value <= balanceOf[_from]);
         require(_value <= allowance[_from][msg.sender]);
