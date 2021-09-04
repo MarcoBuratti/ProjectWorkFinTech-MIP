@@ -4211,7 +4211,7 @@
                             "name": "abi",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 2377,
+                            "referencedDeclaration": 2531,
                             "src": "2511:3:7",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_abi",
@@ -4733,7 +4733,7 @@
                             "name": "abi",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 2377,
+                            "referencedDeclaration": 2531,
                             "src": "2755:3:7",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_abi",
@@ -10193,7 +10193,7 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 2377,
+                                      "referencedDeclaration": 2531,
                                       "type": "abi",
                                       "value": "abi"
                                     },
@@ -10697,7 +10697,7 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 2377,
+                                      "referencedDeclaration": 2531,
                                       "type": "abi",
                                       "value": "abi"
                                     },
@@ -11729,7 +11729,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.3",
-  "updatedAt": "2021-09-02T15:27:54.088Z",
+  "updatedAt": "2021-09-04T12:44:36.851Z",
   "devdoc": {
     "methods": {}
   },
