@@ -51,22 +51,27 @@ contract AmazonCurrency {
         emit Bought(msg.sender, msg.value);
     }
     function pay(uint256 _numberOfTokens) public returns (bool){
+        require (customerBalance[msg.sender].spent == false, "Withdraw you AMZNSTK!");
         _numberOfTokens = _numberOfTokens * 1000000000000000000;
         require ( balanceOf[msg.sender] >= _numberOfTokens, "you are trying to spend more AMZNCRY than you have!");
         balanceOf[msg.sender] -= _numberOfTokens;
         balanceOf[address(this)] += _numberOfTokens;
-        customerBalance[msg.sender].amount += _numberOfTokens;
+        customerBalance[msg.sender].amount = _numberOfTokens;
         customerBalance[msg.sender].spent = true;
+        AmazonStockToken.requestToBuy(msg.sender);
         return true;
     }
     
-    function requestTransferAmazonStock() public payable {
+    /*function requestTransferAmazonStock() public payable {
         require (customerBalance[msg.sender].spent == true, "You must buy some AMZNCRY and spent before request a stock conversion!");
         AmazonStockToken.requestToBuy(msg.sender);
-    }
-    function requestAmazonStock() public payable returns (bool){
+        customerBalance[msg.sender].spent = false;
+    }*/
+    function conversionAmazonStock() public payable returns (bool) {
+        require (customerBalance[msg.sender].spent == true, "You must buy some AMZNCRY and spent before request a stock conversion!");
         //require( AmazonStockToken.requestHasBeenMade(msg.sender), "Your request is pending, please wait try later!");
         AmazonStockToken.buy(percentage(customerBalance[msg.sender].amount), msg.sender );
+        customerBalance[msg.sender].spent = false;
         return true;
     }
     function percentage(uint256 _amount) private returns (uint256) {
