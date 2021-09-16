@@ -1796,10 +1796,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2689,
-                        2690
+                        2691,
+                        2692
                       ],
-                      "referencedDeclaration": 2689,
+                      "referencedDeclaration": 2691,
                       "src": "2807:7:6",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -9810,10 +9810,10 @@
                                 }
                               ],
                               "overloadedDeclarations": [
-                                2689,
-                                2690
+                                2691,
+                                2692
                               ],
-                              "referencedDeclaration": 2689,
+                              "referencedDeclaration": 2691,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
@@ -15044,7 +15044,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.3",
-  "updatedAt": "2021-09-15T12:47:01.071Z",
+  "updatedAt": "2021-09-16T16:47:02.460Z",
   "devdoc": {
     "details": "A library for working with mutable byte buffers in Solidity. * Byte buffers are mutable and expandable, and provide a variety of primitives for writing to them. At any time you can fetch a bytes object containing the current contents of the buffer. The bytes object should not be stored between operations, as it may change due to resizing of the buffer.",
     "methods": {}

@@ -5,7 +5,7 @@ import "@chainlink/contracts/src/v0.6/ChainlinkClient.sol";
 
 contract AmazonCurrency {
     string  public constant name = "Amazon Currency Token";
-    string  public constant symbol = "AMZNCRY";
+    string  public constant symbol = "AMC";
     uint8 public constant decimals = 18;
     string  private standard = "Amazon Currency Token v1.0";
     uint256 public constant totalSupply = 100000000000000000000000000;
@@ -23,7 +23,6 @@ contract AmazonCurrency {
     struct CustomerAccount {
         uint256 amount;
     }
-    
     AmazonStock private AmazonStockToken;
 
     constructor () public {
@@ -31,7 +30,7 @@ contract AmazonCurrency {
         contractOwner = msg.sender;
         AmazonStockToken = new AmazonStock(address(this));
     }
-
+    
     function transfer(address _to, uint256 _value) private returns (bool success){
         require(leftSupply >= _value);
         leftSupply -= _value;
@@ -84,7 +83,7 @@ contract AmazonCurrency {
 
 contract AmazonStock {
     string  public constant name = "Amazon Stock Token";
-    string  public constant symbol = "AMZNSTK";
+    string  public constant symbol = "AMS";
     uint8 public constant decimals = 18;
     string  private standard = "Ecommerce Token v1.0";
     uint256 public constant totalSupply = 100000000000000000000000000;
@@ -101,6 +100,7 @@ contract AmazonStock {
         bool request;
         uint256 requestIndex;
     }
+    
 
     event Transfer( address indexed _from, address indexed _to, uint256 _value );
     event Bought( address indexed _buyer, uint256 indexed amount );
@@ -171,8 +171,8 @@ contract ApiData is ChainlinkClient {
   
     uint256 private price;
     uint256 private requestIndex;
-    uint256 [] private priceToBuy;
-    bool [] private requests;
+    uint256 [10] private priceToBuy;
+    bool [10] private requests;
 
     //uint256 private indiceRichiesta;
     //uint256 [10] public whatPrice = [0];
@@ -186,8 +186,10 @@ contract ApiData is ChainlinkClient {
     
     /**
      * Network: Kovan
-     * Oracle: 0xc57B33452b4F7BB189bB5AfaE9cc4aBa1f7a4FD8 (Chainlink Devrel Node)
-     * Job ID: d5270d1c311941d0b08bead21fea7747
+     * Oracle Kovan: 0xc57B33452b4F7BB189bB5AfaE9cc4aBa1f7a4FD8 (Chainlink Devrel Node)
+     * Oracle Rinkeby: 0x7AFe1118Ea78C1eae84ca8feE5C65Bc76CcF879e
+     * Job ID Kovan: d5270d1c311941d0b08bead21fea7747
+     * job ID Rinkeby: 6d1bfe27e7034b1d87b5270556b17277
      * Fee: 0.1 LINK
      */
     constructor() public {
